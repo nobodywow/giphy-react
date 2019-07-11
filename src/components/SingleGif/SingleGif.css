@@ -1,0 +1,7 @@
+.Gif_container {
+    display: flex;
+}
+
+.Gif_image {
+    max-width: 100%;
+}

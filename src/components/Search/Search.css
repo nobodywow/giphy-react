@@ -1,0 +1,28 @@
+.Search {
+    display: flex;
+    justify-content: center;
+    padding: 5px;
+}
+
+.Search_button,
+.Search_input {
+    font-size: 20px;
+    margin: 2px;
+}
+
+.Search_button {    
+    border-radius: 2px;
+    border: none;
+    color: #fff;
+    background-color: green;
+}
+
+@media (max-width: 360px) {
+    .Search {
+        display: grid;
+    }
+    .Search_button,
+    .Search_input {
+        min-width: 100%;
+    }
+}

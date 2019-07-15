@@ -5,7 +5,6 @@ import Search from './components/Search/Search';
 import SingleGif from './components/SingleGif/SingleGif';
  
 const App = () => {
-
     return (
         <Router>
             <Switch>
@@ -13,10 +12,8 @@ const App = () => {
                 <Route path='/search' exact component={Preview}/>
                 <Route path='/gif/:id' exact component={SingleGif}/>           
             </Switch>
-        </Router>
-        
-    );
-    
+        </Router>        
+    );    
 }
 
 export default App;

@@ -10,7 +10,7 @@ class BaseApi {
         let queryUrl = this.createUrlForId(id);
         const apiResponse = await fetch(queryUrl).then(response => response.json());
         return this.mapSingleGif(apiResponse);
-    };    
+    };
     
 }
 

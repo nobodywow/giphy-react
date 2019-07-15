@@ -1,53 +1,55 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import queryString from 'query-string';
-import GiphyApi from '../../api/GiphyApi';
 import { Link } from 'react-router-dom';
 import Image from '../shared/Image';
 import LoadButton from './LoadButton';
 import './Preview.css';
+import { getGifs } from '../../store/actions';
 
 const GIF_LIMIT = 5;
 const GIF_OFFSET = 5;
 
 const Preview = (props) => {
-    
-    const api = new GiphyApi();
-    
-    const [gifs, setGifs] = useState([]);
-    const [gifOffset, setOffset] = useState(0);
 
     const getQueryParameter = () => {
         const values = queryString.parse(props.location.search);
         return values.q.split('+').join('');
     };
 
-    useEffect(() => {       
-        getGifs(getQueryParameter());
+    useEffect(() => {
+        if (GIF_OFFSET > props.offset) {
+            props.getGifs(getQueryParameter(), GIF_LIMIT, GIF_OFFSET);
+        }
     }, []);
 
-
-    const getGifs = async (keyword) => {
-        let offsetArray = await api.getGifArray(keyword, GIF_LIMIT, gifOffset);
-        setGifs([ ...gifs, ...offsetArray ]);
-        setOffset(gifOffset + GIF_OFFSET);
+    const loadMoreGifs = () => {
+        props.getGifs(getQueryParameter(), GIF_LIMIT, GIF_OFFSET);
     };
 
     const goToSingleGif = (gifData) => {
-        props.history.push(`/gif/${gifData.id}`);
-    };
+        props.history.push(`/gif/${gifData.id}`); 
+    };    
 
     return (
         <div className='Preview'>
             <div className='Preview_container'>
                 {
-                    gifs.map(item => <Link to={`/gif/${item.id}`} key={item.id}> <Image class={'Grid_item'} imageSource={item.previewImgURL} onClick={() => goToSingleGif(item)} /></Link>)
+                    props.gifs.map(item => <Link to={`/gif/${item.id}`} key={item.id}> <Image class={'Grid_item'} imageSource={item.previewImgURL} onClick={() => goToSingleGif(item)} /></Link>)
                 }
             </div>        
-            <LoadButton onLoadButton={() => getGifs(getQueryParameter())}/>
-        </div>
-        
-    );
-
+            <LoadButton onLoadButton={() => loadMoreGifs(getQueryParameter())}/>
+        </div>        
+    );    
 };
 
-export default Preview;
+const mapStateToProps = state => ({
+    gifs: state.gifs,
+    offset: state.offset,
+});
+
+const mapDispatchToProps = dispatch => ({
+    getGifs: (keyword, limit, GIF_OFFSET) => dispatch(getGifs(keyword, limit, GIF_OFFSET)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Preview);

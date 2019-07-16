@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { getFormattedDate } from '../../utils/dateUtils';
 
 const UserInfoContainer = (props) => {
@@ -8,6 +9,12 @@ const UserInfoContainer = (props) => {
             <p>{`Date: ${getFormattedDate(props.date)}`}</p>
         </div>
     );
+};
+
+UserInfoContainer.propTypes = {
+    username: PropTypes.string,
+    avatar: PropTypes.string,
+    date: PropTypes.string,
 };
 
 export default UserInfoContainer;

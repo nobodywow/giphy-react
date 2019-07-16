@@ -1,7 +1,7 @@
-.Gif_container {
+.gif-container {
     display: flex;
 }
 
-.Gif_image {
+.gif-image {
     max-width: 100%;
 }

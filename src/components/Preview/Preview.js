@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { connect } from 'react-redux';
 import queryString from 'query-string';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Image from '../shared/Image';
 import LoadButton from './LoadButton';
 import './Preview.css';
 import { getGifs } from '../../store/actions';
+import ErrorMessage from '../shared/ErrorMessage';
+import { convertQueryToKeyword } from '../../utils/stringUtils';
 
 const GIF_LIMIT = 5;
 const GIF_OFFSET = 5;
 
 const Preview = (props) => {
 
-    const getQueryParameter = () => {
-        const values = queryString.parse(props.location.search);
-        return values.q.split('+').join('');
-    };
+    const getQueryParameter = () => convertQueryToKeyword(queryString.parse(props.location.search).q);
 
     useEffect(() => {
         if (GIF_OFFSET > props.offset) {
@@ -27,20 +27,36 @@ const Preview = (props) => {
         props.getGifs(getQueryParameter(), GIF_LIMIT, GIF_OFFSET);
     };
 
-    const goToSingleGif = (gifData) => {
-        props.history.push(`/gif/${gifData.id}`); 
-    };    
+    const handleButtonClick = useCallback(
+        () => {
+            loadMoreGifs(getQueryParameter());
+        }, [],
+    );
 
     return (
-        <div className='Preview'>
-            <div className='Preview_container'>
+        <div className='preview'>
+            <div className='preview-container'>
                 {
-                    props.gifs.map(item => <Link to={`/gif/${item.id}`} key={item.id}> <Image class={'Grid_item'} imageSource={item.previewImgURL} onClick={() => goToSingleGif(item)} /></Link>)
+                    props.gifs.length === 0
+                    ? <ErrorMessage errorMessage={'No gifs found'} />
+                    : props.gifs.map(item => 
+                        <Link to={`/gif/${item.id}`} key={item.id}>
+                            <Image class={'grid-item'} title={item.title} imageSource={item.previewImgUrl} />
+                        </Link>
+                    )
                 }
             </div>        
-            <LoadButton onLoadButton={() => loadMoreGifs(getQueryParameter())}/>
+            <LoadButton onLoadButton={handleButtonClick}/>
         </div>        
     );    
+};
+
+Preview.propTypes = {
+    location: PropTypes.object,
+    offset: PropTypes.node,
+    getGifs: PropTypes.func,
+    history: PropTypes.object,
+    gifs: PropTypes.array,
 };
 
 const mapStateToProps = state => ({

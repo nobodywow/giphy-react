@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import UserInfoContainer from './UserInfoContainer';
 import Image from '../shared/Image';
 import BackButton from './BackButton';
-import GiphyApi from '../../api/GiphyApi';
 import { en } from '../../locales/en/en';
 import { getSingleGif } from '../../store/actions'
 import './SingleGif.css';
@@ -20,8 +20,8 @@ const SingleGif = (props) => {
 
     return (
         <div>
-            <div className='Gif_container'>
-                <Image class={'Gif_image'} imageSource={props.gif.originalImgURL} />
+            <div className='gif-container'>
+                <Image className={'gif-image'} title={props.gif.title} imageSource={props.gif.originalImgUrl} />
             </div>
             {
                 Object.entries(props.gif).length !== 0 
@@ -33,6 +33,13 @@ const SingleGif = (props) => {
             }
         </div>        
     );
+};
+
+SingleGif.propTypes = {
+    gif: PropTypes.object,
+    match: PropTypes.object,
+    history: PropTypes.object,
+    getSingleGif: PropTypes.func,
 };
 
 const mapStateToProps = state => ({

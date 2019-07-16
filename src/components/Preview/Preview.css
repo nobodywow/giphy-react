@@ -1,25 +1,25 @@
-.Preview {
+.preview {
     justify-content: center;
 }
 
-.Preview_container {
+.preview-container {
     display: grid;
     grid-template-columns: auto auto auto auto auto;
     grid-column-gap: 20px;
 }
 
-.Grid_item {
+.grid-item {
     width: 100%;
 }
 
 @media (max-width: 800px) {
-    .Preview_container {
+    .preview-container {
         grid-template-columns: auto auto auto auto;
     }
 }
 
 @media (max-width: 500px) {
-    .Preview_container {
+    .preview-container {
         grid-template-columns: auto auto;
     }
 }

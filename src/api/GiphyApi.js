@@ -1,35 +1,52 @@
 import BaseApi from './BaseApi.js';
 import { env } from './../cfg/env.js';
+import { convertKeywordForUrl } from '../utils/stringUtils.js';
+import queryString from 'query-string';
 
 class GiphyApi extends BaseApi {
 
+    createQueryForKeyword = (keyword, limit, offset) => {
+        const queryObject =  {            
+            q: convertKeywordForUrl(keyword),
+            api_key: env.API_KEY,
+            limit: limit,
+            offset: offset,
+        }
+        return queryString.stringify(queryObject);
+    };
+    
+    createQueryForApiKey = () => {
+        return queryString.stringify({
+            api_key: env.API_KEY,
+        });        
+    };       
+
     createUrlForKeyword = (keyword, limit, offset) => {
-        return `${env.BASE_URL}search?q=${keyword.replace(' ', '+')}&api_key=${env.API_KEY}&limit=${limit}&offset=${offset}`;                 
+        return `${env.BASE_URL}search?${this.createQueryForKeyword(keyword, limit, offset)}`;                 
     };
 
     createUrlForId = (id) => {
-        return `${env.BASE_URL}${id}?api_key=${env.API_KEY}`;
+        return `${env.BASE_URL}${id}?${this.createQueryForApiKey()}`;
     };
 
-    gifObject = (gifData) => {
-        let dataObject = {};
-        dataObject.id = gifData.id
-        dataObject.title = gifData.title;
-        dataObject.username = gifData.username;
-        dataObject.avatarUrl = gifData.username ? gifData.user.avatar_url : '';
-        dataObject.postDate = gifData.import_datetime;
-        dataObject.previewImgURL = gifData.images.fixed_height_small.url;
-        dataObject.originalImgURL = gifData.images.original.url;
-        return dataObject;
-    };
+    mapGifObject = (gifData) => ({
+        id: gifData.id,
+        title: gifData.title,
+        username: gifData.username,
+        avatarUrl: gifData.username ? gifData.user.avatar_url : '',
+        postDate: gifData.import_datetime,
+        previewImgUrl: gifData.images.fixed_height_small.mp4,
+        originalImgUrl: gifData.images.original.mp4,
+        title: gifData.title,
+    });
 
     mapSingleGif = (gifData) => {
-        return this.gifObject(gifData.data);
+        return this.mapGifObject(gifData.data);
     };
 
     mapGifArray = (gifData) => {
-        let dataArray = gifData.data.map((item) => {
-            return this.gifObject(item);
+        const dataArray = gifData.data.map((item) => {
+            return this.mapGifObject(item);
         });
         return dataArray;
     };

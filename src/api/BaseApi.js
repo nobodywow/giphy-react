@@ -1,17 +1,19 @@
 class BaseApi {
 
     getGifArray = async (keyword, limit, offset) => {
-        let queryUrl = this.createUrlForKeyword(keyword, limit, offset);
-        const apiResponse = await fetch(queryUrl).then(response => response.json());
-        return this.mapGifArray(apiResponse);
+        const queryUrl = this.createUrlForKeyword(keyword, limit, offset);
+        const apiResponse = await fetch(queryUrl);
+        const gifsObject = await apiResponse.json();
+        return this.mapGifArray(gifsObject);
     };
 
     getSingleGif = async (id) => {
-        let queryUrl = this.createUrlForId(id);
-        const apiResponse = await fetch(queryUrl).then(response => response.json());
-        return this.mapSingleGif(apiResponse);
+        const queryUrl = this.createUrlForId(id);
+        const apiResponse = await fetch(queryUrl);
+        const gifObject = await apiResponse.json();
+        return this.mapSingleGif(gifObject);
     };
-    
+        
 }
 
 export default BaseApi;

@@ -1,6 +1,8 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useCallback, useEffect, useState, useRef } from 'react';
+import PropTypes from 'prop-types';
 import './Search.css';
 import { en } from '../../locales/en/en';
+import { convertKeywordForUrl } from '../../utils/stringUtils';
 
 const Search = (props) => {
 
@@ -10,8 +12,8 @@ const Search = (props) => {
         setInput(event.target.value);
     };
 
-    const navigate = (parameters) => {
-        props.history.push(`/search?q=${parameters.split(' ').join('+')}`);
+    const navigate = (keyword) => {
+        props.history.push(`/search?q=${convertKeywordForUrl(keyword)}`);
     };
 
     const onEnterKeyPress = (event) => {
@@ -28,11 +30,17 @@ const Search = (props) => {
         })();
     });
 
+    const handleButtonClick = useCallback(
+        () => {
+            navigate(input);
+        }, [input],
+    );
+
     return (
-        <div className='Search'>
+        <div className='search'>
             <input
               ref={inputElement}
-              className='Search_input'
+              className='search-input'
               placeholder={en.SEARCH_INPUT_PLACEHOLDER}
               value={input}
               onChange={inputChangeHandler}
@@ -40,14 +48,18 @@ const Search = (props) => {
             />
             
             <button
-              className='Search_button'
-              onClick={() => navigate(input)}
-              disabled={input.value > 0}
+              className='search-button'
+              onClick={handleButtonClick}
+              disabled={input.length === 0}
             >
             {en.SEARCH_BUTTON}
             </button>
         </div>
     );
+};
+
+Search.propTypes = {
+    history: PropTypes.object,
 };
 
 export default Search;

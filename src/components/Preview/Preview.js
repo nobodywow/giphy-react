@@ -4,32 +4,31 @@ import queryString from 'query-string';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Image from '../shared/Image';
+import Loading from '../Loading/Loading';
 import LoadButton from './LoadButton';
-import './Preview.css';
 import { getGifs } from '../../store/actions';
 import ErrorMessage from '../shared/ErrorMessage';
 import { convertQueryToKeyword } from '../../utils/stringUtils';
+import './Preview.css';
 
 const GIF_LIMIT = 5;
 const GIF_OFFSET = 5;
 
-const Preview = (props) => {
+const Preview = (props) => {   
 
     const getQueryParameter = () => convertQueryToKeyword(queryString.parse(props.location.search).q);
-
-    useEffect(() => {
-        if (GIF_OFFSET > props.offset) {
-            props.getGifs(getQueryParameter(), GIF_LIMIT, GIF_OFFSET);
-        }
-    }, []);
-
+    
     const loadMoreGifs = () => {
         props.getGifs(getQueryParameter(), GIF_LIMIT, GIF_OFFSET);
     };
 
+    useEffect(() => {
+        loadMoreGifs();
+    }, []);    
+
     const handleButtonClick = useCallback(
         () => {
-            loadMoreGifs(getQueryParameter());
+            loadMoreGifs();
         }, [],
     );
 
@@ -37,7 +36,9 @@ const Preview = (props) => {
         <div className='preview'>
             <div className='preview-container'>
                 {
-                    props.gifs.length === 0
+                    props.loading 
+                    ? <Loading />
+                    : props.gifs.length === 0
                     ? <ErrorMessage errorMessage={'No gifs found'} />
                     : props.gifs.map(item => 
                         <Link to={`/gif/${item.id}`} key={item.id}>
@@ -57,9 +58,11 @@ Preview.propTypes = {
     getGifs: PropTypes.func,
     history: PropTypes.object,
     gifs: PropTypes.array,
+    loading: PropTypes.bool,
 };
 
 const mapStateToProps = state => ({
+    loading: state.loading,
     gifs: state.gifs,
     offset: state.offset,
 });

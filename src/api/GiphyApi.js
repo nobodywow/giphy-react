@@ -4,29 +4,26 @@ import { convertKeywordForUrl } from '../utils/stringUtils.js';
 import queryString from 'query-string';
 
 class GiphyApi extends BaseApi {
+    
+    constructUrl = (path, isQuery, queryParams) => (
+        isQuery 
+        ? `${env.BASE_URL}${path}?${queryString.stringify(queryParams)}`
+        : `${env.BASE_URL}${path}`
+    );
 
-    createQueryForKeyword = (keyword, limit, offset) => {
-        const queryObject =  {            
+    createUrlForKeyword = (keyword, limit, offset) => {
+        return this.constructUrl('search', true, {
             q: convertKeywordForUrl(keyword),
             api_key: env.API_KEY,
             limit: limit,
             offset: offset,
-        }
-        return queryString.stringify(queryObject);
-    };
-    
-    createQueryForApiKey = () => {
-        return queryString.stringify({
-            api_key: env.API_KEY,
-        });        
-    };       
-
-    createUrlForKeyword = (keyword, limit, offset) => {
-        return `${env.BASE_URL}search?${this.createQueryForKeyword(keyword, limit, offset)}`;                 
+         });                 
     };
 
     createUrlForId = (id) => {
-        return `${env.BASE_URL}${id}?${this.createQueryForApiKey()}`;
+        return this.constructUrl(id, true, {
+            api_key: env.API_KEY,
+        });
     };
 
     mapGifObject = (gifData) => ({
@@ -37,7 +34,6 @@ class GiphyApi extends BaseApi {
         postDate: gifData.import_datetime,
         previewImgUrl: gifData.images.fixed_height_small.mp4,
         originalImgUrl: gifData.images.original.mp4,
-        title: gifData.title,
     });
 
     mapSingleGif = (gifData) => {

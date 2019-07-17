@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import './Search.css';
 import { en } from '../../locales/en/en';
 import { convertKeywordForUrl } from '../../utils/stringUtils';
+import './Search.css';
 
 const Search = (props) => {
 

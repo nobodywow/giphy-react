@@ -1,7 +1,12 @@
-.search {
+.search  {
     display: flex;
     justify-content: center;
     padding: 5px;
+}
+
+.upload {
+    display: flex;
+    justify-content: center;
 }
 
 .search-button,

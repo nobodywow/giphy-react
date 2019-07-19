@@ -4,6 +4,16 @@ import { convertKeywordForUrl } from '../utils/stringUtils.js';
 import queryString from 'query-string';
 
 class GiphyApi extends BaseApi {
+
+    createUploadRequestBody = (file) => {
+        const formData = new FormData();
+        formData.append('gif', file);
+        formData.append('name', file.name);
+        return ({
+            method: 'POST',
+            body: formData,
+        });
+    };
     
     constructUrl = (path, isQuery, queryParams) => (
         isQuery 

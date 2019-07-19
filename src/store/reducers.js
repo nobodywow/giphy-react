@@ -15,6 +15,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 loading: true,
             }
+        case actionTypes.STOP_LOADING:
+            return {
+                ...state,
+                loading: false,
+            }
         case actionTypes.GIFS_RECIEVED: 
             return {
                 ...state,
@@ -35,6 +40,11 @@ const reducer = (state = initialState, action) => {
                 gifs: action.gifs,
                 offset: action.offset,
                 loading: false,
+            }
+        case actionTypes.DELETE_GIF:
+            return {
+                ...state,
+                gifs: state.gifs.filter(gif => gif.id !== action.id),
             }
         default:
             return state;

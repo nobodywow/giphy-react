@@ -13,7 +13,16 @@ class BaseApi {
         const gifObject = await apiResponse.json();
         return this.mapSingleGif(gifObject);
     };
-        
+
+    uploadGif = async (file) => {
+        try {
+            const request = await fetch('https://api', this.createUploadRequestBody(file));
+            const response = await request.json();
+            console.log(response);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 }
 
 export default BaseApi;

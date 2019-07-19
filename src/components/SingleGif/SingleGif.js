@@ -1,18 +1,26 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import UserInfoContainer from './UserInfoContainer';
 import Image from '../shared/Image';
-import BackButton from './BackButton';
+import Button from '../shared/Button';
 import { en } from '../../locales/en/en';
-import { getSingleGif } from '../../store/actions'
+import ErrorMessage from '../shared/ErrorMessage';
 import './SingleGif.css';
 
 const SingleGif = (props) => {
 
-    const goToFrontPage = () => {
-        props.history.push('/');
-    };
+    const goToFrontPage = useCallback(
+        () => {
+            props.history.push('/');
+        }, [],
+    );
+
+    const deleteButtonHandler = useCallback(
+        () => {
+            props.history.push(`/search?q=${props.keyword}`);
+            props.deleteGif(props.gif.id);
+        }, [],
+    );
 
     useEffect(() => {
         props.getSingleGif(props.match.params.id);
@@ -27,27 +35,22 @@ const SingleGif = (props) => {
                 Object.entries(props.gif).length !== 0 
                 ? <div>
                     <UserInfoContainer username={props.gif.username} date={props.gif.postDate} avatar={props.gif.avatarUrl} />
-                    <BackButton onClickFunction={goToFrontPage} backButtonText={en.GIF_BACK_BUTTON} />
+                    <Button onClickFunction={goToFrontPage} buttonText={en.GIF_BACK_BUTTON} />
+                    <Button onClickFunction={deleteButtonHandler} buttonText={en.GIF_DELETE_BUTTON} />
                 </div> 
-                : null 
+                : <ErrorMessage errorMessage={en.ERROR_MESSAGE} />
             }
         </div>        
     );
 };
 
 SingleGif.propTypes = {
+    keyword: PropTypes.string,
+    deleteGif: PropTypes.func,
     gif: PropTypes.object,
     match: PropTypes.object,
     history: PropTypes.object,
     getSingleGif: PropTypes.func,
 };
 
-const mapStateToProps = state => ({
-    gif: state.currentGif
-});
-
-const mapDispatchToProps = dispatch => ({
-    getSingleGif: (id) => dispatch(getSingleGif(id))
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(SingleGif);
+export default SingleGif;

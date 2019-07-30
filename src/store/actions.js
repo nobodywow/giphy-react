@@ -1,3 +1,5 @@
+import { createActions } from 'redux-actions';
+
 export const actionTypes = {
     GET_GIFS: 'GET_GIFS',
     GIFS_RECIEVED: 'GIFS_RECIEVED',
@@ -8,29 +10,38 @@ export const actionTypes = {
     STOP_LOADING: 'STOP_LOADING',
     DELETE_GIF: 'DELETE_GIF',
     UPLOAD_GIF: 'UPLOAD_GIF',
+    REQUEST_FAILED: 'REQUEST_FAILED',
 };
 
-export const getGifs = (keyword, limit, offset, isOnLoad) => ({
-    type: actionTypes.GET_GIFS,
-    payload: { keyword: keyword, limit: limit, offset: offset, isOnLoad: isOnLoad },
-});
-
-export const setOffset = (offset) => ({
-    type: actionTypes.GET_GIFS,
-    offset: offset,
-});
-
-export const getSingleGif = (id) => ({
-    type: actionTypes.GET_SINGLE_GIF,
-    id: id,
-});
-
-export const uploadGif = (file) => ({
-    type: actionTypes.UPLOAD_GIF,
-    file: file,
-});
-
-export const deleteGif = (id) => ({
-    type: actionTypes.DELETE_GIF,
-    id: id,
+export const actionCreators = createActions({
+    GET_GIFS:
+        (keyword, limit, offset) => ({
+            keyword: keyword,
+            limit: limit,
+            offset: offset,
+        }),
+    GIFS_RECIEVED: null,
+    GET_SINGLE_GIF:
+        (id) => ({
+            id: id,
+        }),
+    SINGLE_GIF_RECIEVED: null,
+    KEYWORD_CHANGE: 
+        (keyword, limit, offset) => ({
+            keyword: keyword,
+            limit: limit,
+            offset: offset,
+        }),
+    GIF_UPLOADED: null,
+    STOP_LOADING: null,
+    KEYWORD_CHANGED: null, 
+    DELETE_GIF: 
+        (id) => ({
+            id: id,
+        }),
+    UPLOAD_GIF: 
+        (file) => ({
+            file: file,
+        }),
+    REQUEST_FAILED: null,
 });

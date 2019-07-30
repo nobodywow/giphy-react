@@ -1,54 +1,39 @@
-import { actionTypes } from './actions';
+import { handleActions } from 'redux-actions';
+import { initialState } from './state';
 
-const initialState = {
-    keyword: '',
-    gifs: [],
-    offset: 0,
-    currentGif: {},
-    loading: true,
-};
-
-const reducer = (state = initialState, action) => {
-    switch(action.type) {
-        case actionTypes.GET_GIFS:
-            return {
-                ...state,
-                loading: true,
-            }
-        case actionTypes.STOP_LOADING:
-            return {
-                ...state,
-                loading: false,
-            }
-        case actionTypes.GIFS_RECIEVED: 
-            return {
-                ...state,
-                keyword: action.keyword,
-                gifs: [ ...state.gifs, ...action.gifs ],
-                offset: action.offset,
-                loading: false,
-            };
-        case actionTypes.SINGLE_GIF_RECIEVED:
-            return {
-                ...state,
-                currentGif: action.currentGif
-            };
-        case actionTypes.KEYWORD_CHANGED: 
-            return {
-                ...state,
-                keyword: action.keyword,
-                gifs: action.gifs,
-                offset: action.offset,
-                loading: false,
-            }
-        case actionTypes.DELETE_GIF:
-            return {
-                ...state,
-                gifs: state.gifs.filter(gif => gif.id !== action.id),
-            }
-        default:
-            return state;
-    }
-};
+const reducer = handleActions(
+    {
+        GET_GIFS: (state) => ({
+            ...state,
+            loading: true,
+        }),
+        STOP_LOADING: (state) => ({
+            ...state,
+            loading: false,
+        }),
+        GIFS_RECIEVED: (state, action) => ({
+            ...state,
+            keyword: action.keyword,
+            gifs: [ ...state.gifs, ...action.gifs ],
+            offset: action.offset,
+            loading: false,
+        }),
+        SINGLE_GIF_RECIEVED: (state, action) => ({
+            ...state,
+            currentGif: action.currentGif,
+        }),
+        KEYWORD_CHANGED: (state, action) => ({
+            ...state,
+            keyword: action.keyword,
+            gifs: [],
+            offset: 0,
+        }),
+        DELETE_GIF: (state, action) => ({
+            ...state,
+            gifs: state.gifs.filter(gif => gif.id !== action.payload.id),
+        })
+    },
+    initialState,
+);
 
 export default reducer;

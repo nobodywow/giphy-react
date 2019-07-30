@@ -7,27 +7,30 @@ import Image from '../shared/Image';
 import Button from '../shared/Button';
 import ErrorMessage from '../shared/ErrorMessage';
 import { convertQueryToKeyword } from '../../utils/stringUtils';
-import { en } from '../../locales/en/en';
+import { lang } from '../../locales/config';
 import './Preview.css';
 
-const GIF_LIMIT = 5;
-const GIF_OFFSET = 5;
 
-const Preview = (props) => {   
+const Preview = (props) => {
+    
+    const GIF_LIMIT = 5;
+    const GIF_OFFSET = 5;
 
     const getQueryParameter = () => convertQueryToKeyword(queryString.parse(props.location.search).q);
     
-    const loadMoreGifs = (isOnLoad) => {
-        props.getGifs(getQueryParameter(), GIF_LIMIT, GIF_OFFSET, isOnLoad);
+    const loadMoreGifs = () => {
+        props.getGifs(getQueryParameter(), GIF_LIMIT, GIF_OFFSET);
     };
  
     useEffect(() => {
-        loadMoreGifs(true);
+        if (props.gifs.length === 0) {
+            loadMoreGifs();
+        }
     }, []);
 
     const handleButtonClick = useCallback(
         () => {
-            loadMoreGifs(false);
+            loadMoreGifs();
         }, [],
     );
 
@@ -41,7 +44,7 @@ const Preview = (props) => {
                 <div className='preview-container'>
                     {
                         props.gifs.length === 0
-                        ? <ErrorMessage errorMessage={en.ERROR_MESSAGE} />
+                        ? <ErrorMessage errorMessage={lang.ERROR_MESSAGE} />
                         : props.gifs.map(item => 
                             <Link to={`/gif/${item.id}`} key={item.id}>
                                 <Image class={'grid-item'} title={item.title} imageSource={item.previewImgUrl} />
@@ -50,14 +53,13 @@ const Preview = (props) => {
                     }
                 </div>
             </LoadingOverlay>            
-            <Button onClickFunction={handleButtonClick} buttonText={en.LOAD_BUTTON} />
+            <Button onClickFunction={handleButtonClick} buttonText={lang.LOAD_BUTTON} />
         </div>        
     );    
 };
 
 Preview.propTypes = {
     location: PropTypes.object,
-    offset: PropTypes.node,
     getGifs: PropTypes.func,
     history: PropTypes.object,
     gifs: PropTypes.array,

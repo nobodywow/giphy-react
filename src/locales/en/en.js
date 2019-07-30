@@ -5,4 +5,5 @@ export const en = {
     GIF_BACK_BUTTON: 'go back',
     GIF_DELETE_BUTTON: 'delete gif',
     ERROR_MESSAGE: 'No gifs found. Try again please.',
+    UPLOAD_BUTTON: 'upload',
 };

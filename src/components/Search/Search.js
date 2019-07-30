@@ -1,7 +1,12 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { en } from '../../locales/en/en';
-import { convertKeywordForUrl } from '../../utils/stringUtils';
+import SearchButton from './SearchButton';
+import SearchInput from './SearchInput';
+import { lang } from '../../locales/config';
+import { convertKeywordToQuery } from '../../utils/stringUtils';
+import { endpoints, constructPath } from '../../routes/endpoints';
+import SearchUploadField from './SearchUploadField';
+import SearchUploadButton from './SearchUploadButton';
 import './Search.css';
 
 const Search = (props) => {
@@ -14,25 +19,20 @@ const Search = (props) => {
     };
 
     const navigate = (keyword) => {
-        props.history.push(`/search?q=${convertKeywordForUrl(keyword)}`);
+        props.history.push(constructPath(endpoints.search, { q: convertKeywordToQuery(keyword) }));
     };
 
     const onEnterKeyPress = (event) => {
         if (event.key === 'Enter') {
             if (input.length !== 0) {
-                navigate(input);
+                handleButtonClick();
             }
         }
-    };
-
-    const inputElement = useRef(null);
-
-    useEffect(() => {
-        inputElement.current.focus();
-    });
+    };    
 
     const handleButtonClick = () => {
-        navigate(input);        
+        props.resetKeyword(input);
+        navigate(input);
     };
     
     const onFileChange = (event) => setFile(event.target.files[0]);
@@ -44,35 +44,27 @@ const Search = (props) => {
     return (
         <div>
             <div className='search'>
-                <input
-                  ref={inputElement}
-                  className='search-input'
-                  placeholder={en.SEARCH_INPUT_PLACEHOLDER}
-                  value={input}
-                  onChange={inputChangeHandler}
-                  onKeyPress={onEnterKeyPress}
+                <SearchInput
+                    placeholder={lang.SEARCH_INPUT_PLACEHOLDER}
+                    onChange={inputChangeHandler}
+                    onKeyPress={onEnterKeyPress}
+                    input={input}
                 />
-                
-                <button
-                  className='search-button'
-                  onClick={handleButtonClick}
-                  disabled={input.length === 0}
-                >
-                {en.SEARCH_BUTTON}
-                </button>
+                <SearchButton
+                    onClick={handleButtonClick}
+                    input={input}
+                    text={lang.SEARCH_BUTTON}
+                />                
             </div>
 
             <div className='upload'>
-                <input
-                  type='file'
-                  onChange={onFileChange}
+                <SearchUploadField
+                    onChange={onFileChange}
                 />
-
-                <button
-                  onClick={handleUploadButton}
-                >
-                UPLOAD
-                </button>
+                <SearchUploadButton
+                    onClick={handleUploadButton}
+                    text={lang.UPLOAD_BUTTON}
+                />                
             </div>
         </div>
     );
@@ -80,6 +72,8 @@ const Search = (props) => {
 
 Search.propTypes = {
     history: PropTypes.object,
+    uploadGif: PropTypes.func,
+    resetKeyword: PropTypes.func,
 };
 
 export default Search;

@@ -1,3 +1,3 @@
-import GiphyApi from '../api/GiphyApi';
+import GiphyApi from './GiphyApi';
 
 export const apiInstance = new GiphyApi();

@@ -1,61 +1,32 @@
-import BaseApi from './BaseApi.js';
-import { env } from './../cfg/env.js';
-import { convertKeywordForUrl } from '../utils/stringUtils.js';
-import queryString from 'query-string';
+import BaseGifApi from './BaseGifApi';
+import { apiConfig } from './config';
+import { convertKeywordToQuery } from '../utils/stringUtils';
+import { constructUrl } from './utils';
 
-class GiphyApi extends BaseApi {
+class GiphyApi extends BaseGifApi {
 
-    createUploadRequestBody = (file) => {
+    createFormData = (file) => {
         const formData = new FormData();
         formData.append('gif', file);
         formData.append('name', file.name);
-        return ({
-            method: 'POST',
-            body: formData,
-        });
+        return formData;
     };
-    
-    constructUrl = (path, isQuery, queryParams) => (
-        isQuery 
-        ? `${env.BASE_URL}${path}?${queryString.stringify(queryParams)}`
-        : `${env.BASE_URL}${path}`
-    );
 
     createUrlForKeyword = (keyword, limit, offset) => {
-        return this.constructUrl('search', true, {
-            q: convertKeywordForUrl(keyword),
-            api_key: env.API_KEY,
+        return constructUrl('search', true, {
+            q: convertKeywordToQuery(keyword),
+            api_key: apiConfig.API_KEY,
             limit: limit,
             offset: offset,
          });                 
     };
 
     createUrlForId = (id) => {
-        return this.constructUrl(id, true, {
-            api_key: env.API_KEY,
+        return constructUrl(id, true, {
+            api_key: apiConfig.API_KEY,
         });
     };
 
-    mapGifObject = (gifData) => ({
-        id: gifData.id,
-        title: gifData.title,
-        username: gifData.username,
-        avatarUrl: gifData.username ? gifData.user.avatar_url : '',
-        postDate: gifData.import_datetime,
-        previewImgUrl: gifData.images.fixed_height_small.mp4,
-        originalImgUrl: gifData.images.original.mp4,
-    });
-
-    mapSingleGif = (gifData) => {
-        return this.mapGifObject(gifData.data);
-    };
-
-    mapGifArray = (gifData) => {
-        const dataArray = gifData.data.map((item) => {
-            return this.mapGifObject(item);
-        });
-        return dataArray;
-    };
 }
 
 export default GiphyApi;

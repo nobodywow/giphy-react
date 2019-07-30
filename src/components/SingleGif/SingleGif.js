@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import UserInfoContainer from './UserInfoContainer';
+import UserInfo from './UserInfo';
 import Image from '../shared/Image';
 import Button from '../shared/Button';
-import { en } from '../../locales/en/en';
+import { lang } from '../../locales/config';
+import { endpoints, constructPath } from '../../routes/endpoints';
 import ErrorMessage from '../shared/ErrorMessage';
 import './SingleGif.css';
 
@@ -11,13 +12,13 @@ const SingleGif = (props) => {
 
     const goToFrontPage = useCallback(
         () => {
-            props.history.push('/');
+            props.history.push(constructPath(endpoints.front));
         }, [],
     );
 
     const deleteButtonHandler = useCallback(
         () => {
-            props.history.push(`/search?q=${props.keyword}`);
+            props.history.push(constructPath(endpoints.search, { q: props.keyword }));
             props.deleteGif(props.gif.id);
         }, [],
     );
@@ -34,11 +35,11 @@ const SingleGif = (props) => {
             {
                 Object.entries(props.gif).length !== 0 
                 ? <div>
-                    <UserInfoContainer username={props.gif.username} date={props.gif.postDate} avatar={props.gif.avatarUrl} />
-                    <Button onClickFunction={goToFrontPage} buttonText={en.GIF_BACK_BUTTON} />
-                    <Button onClickFunction={deleteButtonHandler} buttonText={en.GIF_DELETE_BUTTON} />
+                    <UserInfo username={props.gif.username} date={props.gif.postDate} avatar={props.gif.avatarUrl} />
+                    <Button onClickFunction={goToFrontPage} buttonText={lang.GIF_BACK_BUTTON} />
+                    <Button onClickFunction={deleteButtonHandler} buttonText={lang.GIF_DELETE_BUTTON} />
                 </div> 
-                : <ErrorMessage errorMessage={en.ERROR_MESSAGE} />
+                : <ErrorMessage errorMessage={lang.ERROR_MESSAGE} />
             }
         </div>        
     );

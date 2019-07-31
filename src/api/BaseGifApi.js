@@ -5,15 +5,16 @@ import { axiosGif, axiosGifs } from './config';
 class BaseGifApi {
 
     getGifs = async (keyword, limit, offset) => {
-        const queryUrl = this.createUrlForKeyword(keyword, limit, offset);
-        const apiResponse = await axiosGifs(queryUrl);
+        const paramsObject = this.createParamsObject(keyword, limit, offset);
+        const apiResponse = await axiosGifs(apiConfig.SEARCH_ENDPOINT, {
+            params: paramsObject,
+        });
         return apiResponse;
     };
 
     getGif = async (id) => {
-        const queryUrl = this.createUrlForId(id);
-        const apiResponse = await axiosGif(queryUrl);
-        return apiResponse; 
+        const apiResponse = await axiosGif(id);
+        return apiResponse;
     };
 
     uploadGif = async (file) => {
@@ -26,17 +27,13 @@ class BaseGifApi {
     };
 
     createFormData = () => {
-        throw new Error('not implemented');
+        throw new Error('not implemented in BaseGifApi class');
     };
 
-    createUrlForKeyword = () => {
-        throw new Error('not implemented');
+    createParamsObject = () => {
+        throw new Error('not implemented in BaseGifApi class');
     };
-
-    createUrlForId = () => {
-        throw new Error('not implemented');
-    };
-    
+        
 }
 
 export default BaseGifApi;

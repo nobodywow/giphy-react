@@ -6,11 +6,11 @@ import SingleGifContainer from '../components/SingleGif/SingleGifContainer';
 
 const Routes = () => (
     <Router>
-            <Switch>
-                <Route path='/' exact component={SearchContainer}/>
-                <Route path='/search' exact component={PreviewContainer}/>
-                <Route path='/gif/:id' exact component={SingleGifContainer}/>           
-            </Switch>
+        <Switch>
+            <Route path='/' exact component={SearchContainer}/>
+            <Route path='/search' exact component={PreviewContainer}/>
+            <Route path='/gif/:id' exact component={SingleGifContainer}/>           
+        </Switch>
     </Router>               
 )
 

@@ -1,6 +1,6 @@
 import { en } from './en/en';
 
-const names = {
+const defaultNames = {
     SEARCH_INPUT_PLACEHOLDER: 'SEARCH_INPUT_PLACEHOLDER',
     SEARCH_BUTTON: 'SEARCH_BUTTON',
     LOAD_BUTTON: 'LOAD_BUTTON',
@@ -10,4 +10,9 @@ const names = {
     UPLOAD_BUTTON: 'UPLOAD_BUTTON',
 };
 
-export const lang = en;
+const mergeNames = (language) => Object.keys(defaultNames).reduce((accum, key) => ({
+    ...accum,
+    [key]: language[key] || defaultNames[key],
+}), {});
+
+export const lang = mergeNames(en);

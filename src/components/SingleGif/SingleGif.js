@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import UserInfo from './UserInfo';
 import Image from '../shared/Image';
@@ -10,18 +10,14 @@ import './SingleGif.css';
 
 const SingleGif = (props) => {
 
-    const goToFrontPage = useCallback(
-        () => {
-            props.history.push(constructPath(endpoints.front));
-        }, [],
-    );
+    const goToFrontPage = () => {
+        props.history.push(constructPath(endpoints.front));
+    };
 
-    const deleteButtonHandler = useCallback(
-        () => {
-            props.history.push(constructPath(endpoints.search, { q: props.keyword }));
-            props.deleteGif(props.gif.id);
-        }, [],
-    );
+    const deleteButtonHandler = () => {
+        props.history.push(constructPath(endpoints.search, { q: props.keyword }));
+        props.deleteGif(props.gif.id);
+    };
 
     useEffect(() => {
         props.getSingleGif(props.match.params.id);
@@ -29,12 +25,12 @@ const SingleGif = (props) => {
 
     return (
         <div>
-            <div className='gif-container'>
-                <Image className={'gif-image'} title={props.gif.title} imageSource={props.gif.originalImgUrl} />
-            </div>
             {
                 Object.entries(props.gif).length !== 0 
                 ? <div>
+                    <div className='gif-container'>
+                        <Image className={'gif-image'} title={props.gif.title} imageSource={props.gif.originalImgUrl} />
+                    </div>
                     <UserInfo username={props.gif.username} date={props.gif.postDate} avatar={props.gif.avatarUrl} />
                     <Button onClickFunction={goToFrontPage} buttonText={lang.GIF_BACK_BUTTON} />
                     <Button onClickFunction={deleteButtonHandler} buttonText={lang.GIF_DELETE_BUTTON} />

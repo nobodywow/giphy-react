@@ -12,6 +12,5 @@ const mapDispatchToProps = dispatch => ({
     deleteGif: (id) => dispatch(actionCreators.deleteGif(id)),
 });
 
-const SingleGifContainer = connect(mapStateToProps,mapDispatchToProps)(SingleGif);
 
-export default SingleGifContainer;
+export default connect(mapStateToProps,mapDispatchToProps)(SingleGif);

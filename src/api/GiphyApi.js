@@ -1,7 +1,5 @@
 import BaseGifApi from './BaseGifApi';
-import { apiConfig } from './config';
 import { convertKeywordToQuery } from '../utils/stringUtils';
-import { constructUrl } from './utils';
 
 class GiphyApi extends BaseGifApi {
 
@@ -12,19 +10,12 @@ class GiphyApi extends BaseGifApi {
         return formData;
     };
 
-    createUrlForKeyword = (keyword, limit, offset) => {
-        return constructUrl('search', true, {
+    createParamsObject = (keyword, limit, offset) => {
+        return {
             q: convertKeywordToQuery(keyword),
-            api_key: apiConfig.API_KEY,
             limit: limit,
             offset: offset,
-         });                 
-    };
-
-    createUrlForId = (id) => {
-        return constructUrl(id, true, {
-            api_key: apiConfig.API_KEY,
-        });
+         }                 
     };
 
 }

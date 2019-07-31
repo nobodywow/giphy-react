@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import Image from '../shared/Image';
 import Button from '../shared/Button';
 import ErrorMessage from '../shared/ErrorMessage';
+import { endpoints } from '../../routes/endpoints';
 import { convertQueryToKeyword } from '../../utils/stringUtils';
 import { lang } from '../../locales/config';
 import './Preview.css';
-
 
 const Preview = (props) => {
     
@@ -46,7 +46,7 @@ const Preview = (props) => {
                         props.gifs.length === 0
                         ? <ErrorMessage errorMessage={lang.ERROR_MESSAGE} />
                         : props.gifs.map(item => 
-                            <Link to={`/gif/${item.id}`} key={item.id}>
+                            <Link to={`${endpoints.gif}/${item.id}`} key={item.id}>
                                 <Image class={'grid-item'} title={item.title} imageSource={item.previewImgUrl} />
                             </Link>
                         )

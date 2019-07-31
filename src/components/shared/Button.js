@@ -8,6 +8,7 @@ const Button = (props) => {
 };
 
 Button.propTypes = {
+    onClickFunction: PropTypes.func,
     onLoadButton: PropTypes.func,
     className: PropTypes.string,
     buttonText: PropTypes.string,

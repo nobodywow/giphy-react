@@ -3,5 +3,6 @@ export const initialState = {
     gifs: [],
     offset: 0,
     currentGif: {},
-    loading: true,
+    loading: false,
+    error: null,
 };

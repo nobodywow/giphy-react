@@ -1,37 +1,14 @@
 import { handleActions } from 'redux-actions';
 import { initialState } from './state';
+import { searchReducer } from '../modules/Search';
+import { gifReducer } from '../modules/Gif';
+import { gifListReducer } from '../modules/GifList';
 
 const reducer = handleActions(
     {
-        GET_GIFS: (state) => ({
-            ...state,
-            loading: true,
-        }),
-        STOP_LOADING: (state) => ({
-            ...state,
-            loading: false,
-        }),
-        GIFS_RECIEVED: (state, action) => ({
-            ...state,
-            keyword: action.keyword,
-            gifs: [ ...state.gifs, ...action.gifs ],
-            offset: action.offset,
-            loading: false,
-        }),
-        SINGLE_GIF_RECIEVED: (state, action) => ({
-            ...state,
-            currentGif: action.currentGif,
-        }),
-        KEYWORD_CHANGED: (state, action) => ({
-            ...state,
-            keyword: action.keyword,
-            gifs: [],
-            offset: 0,
-        }),
-        DELETE_GIF: (state, action) => ({
-            ...state,
-            gifs: state.gifs.filter(gif => gif.id !== action.payload.id),
-        })
+        ...searchReducer,
+        ...gifReducer,
+        ...gifListReducer,
     },
     initialState,
 );

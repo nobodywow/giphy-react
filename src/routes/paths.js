@@ -1,6 +1,6 @@
 import queryString from 'query-string';
 
-export const endpoints = {
+export const paths = {
     search: '/search',
     gif: '/gif',
     front: '/',

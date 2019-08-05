@@ -1,9 +1,13 @@
 import { all } from 'redux-saga/effects';
-import { watchActions } from './watchers';
+import { watchGifListActions } from '../modules/GifList';
+import { watchSearchActions } from '../modules/Search';
+import { watchGifActions } from '../modules/Gif';
 
 
 export function* gifSaga() {
     yield all([
-            watchActions()
+        watchGifListActions(),
+        watchSearchActions(),
+        watchGifActions(),
     ]);
 }

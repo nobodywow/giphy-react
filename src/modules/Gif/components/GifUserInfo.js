@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { getFormattedDate } from '../../utils/dateUtils';
+import { getFormattedDate } from '../../../utils/dateUtils';
 
 const UserInfo = (props) => {
     return (

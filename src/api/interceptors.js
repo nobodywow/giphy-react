@@ -1,13 +1,12 @@
-export const mapGif = (gifData) => {
-    return mapGifObject(gifData.data);
-};
+export const responseUnwrapperInterceptor = response => response.data.data;
 
-export const mapGifs = (gifData) => {
-    const dataArray = gifData.data.map((item) => {
-        return mapGifObject(item);
-    });
-    return dataArray;
-};
+export const mapInterceptor = data => (
+    Array.isArray(data) 
+        ? data.map((item) => {
+            return mapGifObject(item);
+        })
+        : mapGifObject(data)
+);
 
 const mapGifObject = (gifData) => ({
     id: gifData.id,

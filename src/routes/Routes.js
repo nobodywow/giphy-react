@@ -1,15 +1,15 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import PreviewContainer from '../components/Preview/PreviewContainer';
-import SearchContainer from '../components/Search/SearchContainer';
-import SingleGifContainer from '../components/SingleGif/SingleGifContainer';
+import GifListContainer from '../modules/GifList/components/GifListContainer';
+import SearchContainer from '../modules/Search/components/SearchContainer';
+import SingleGifContainer from '../modules/Gif/components/GifContainer';
 
 const Routes = () => (
     <Router>
         <Switch>
             <Route path='/' exact component={SearchContainer}/>
-            <Route path='/search' exact component={PreviewContainer}/>
-            <Route path='/gif/:id' exact component={SingleGifContainer}/>           
+            <Route path='/search' exact component={GifListContainer}/>
+            <Route path='/gif/:id' exact component={SingleGifContainer}/>
         </Switch>
     </Router>               
 )

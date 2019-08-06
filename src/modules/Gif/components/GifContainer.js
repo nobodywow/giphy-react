@@ -24,11 +24,7 @@ const GifContainer = (props) => {
     return (
         Object.entries(props.gif).length !== 0
         ? <Gif
-            username={props.gif.username}
-            date={props.gif.postDate}
-            avatar={props.gif.avatarUrl}
-            title={props.gif.title}
-            imageSource={props.gif.originalImgUrl}
+            gif={props.gif}
             onBack={goToFrontPage}  
             onDelete={deleteButtonHandler}
             backButtonText={lang.GIF_BACK_BUTTON}

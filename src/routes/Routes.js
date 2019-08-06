@@ -5,7 +5,7 @@ import SearchContainer from '../modules/Search/components/SearchContainer';
 import SingleGifContainer from '../modules/Gif/components/GifContainer';
 
 const Routes = () => (
-    <Router>
+    <Router >
         <Switch>
             <Route path='/' exact component={SearchContainer}/>
             <Route path='/search' exact component={GifListContainer}/>

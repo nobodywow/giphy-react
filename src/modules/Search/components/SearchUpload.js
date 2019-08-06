@@ -11,7 +11,6 @@ const SearchUpload = (props) => {
                 />
                 <SearchUploadButton
                     onClick={props.onClick}
-                    text={props.text}
                 />                
         </div>
     );

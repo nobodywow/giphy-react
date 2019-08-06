@@ -17,7 +17,7 @@ const Search = (props) => {
                 <SearchButton
                     onClick={props.onClick}
                     input={props.input}
-                    text={props.buttonText}
+                    isDisabled={props.input.length === 0}
                 />                
             </div>
         </div>

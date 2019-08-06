@@ -9,9 +9,9 @@ const Gif = (props) => {
     return (
         <div>             
             <div className='gif-container'>
-                <Image className={'gif-image'} title={props.title} imageSource={props.imageSource} />
+                <Image className={'gif-image'} title={props.gif.title} imageSource={props.gif.originalImgUrl} />
             </div>
-            <UserInfo username={props.username} date={props.date} avatar={props.avatar} />
+            <UserInfo gif={props.gif} />            
             <Button onClick={props.onBack} buttonText={props.backButtonText} />
             <Button onClick={props.onDelete} buttonText={props.deleteButtonText} />
         </div>        
@@ -19,11 +19,7 @@ const Gif = (props) => {
 };
 
 Gif.propTypes = {
-    title: PropTypes.string,
-    imageSource: PropTypes.string,
-    username: PropTypes.string,
-    date: PropTypes.string,
-    avatar: PropTypes.string,
+    gif: PropTypes.object,
     onBack: PropTypes.func,
     onDelete: PropTypes.func,
     backButtonText: PropTypes.string,

@@ -1,6 +1,6 @@
 import { select, put } from 'redux-saga/effects';
-import { apiInstance } from '../../api/instances';
 import { gifActions } from './gif.actions';
+import { gifApiInstance } from './gif.api';
 
 export function* getGifWorker(action) {
     const getGifArray = (state) => state.gifs;
@@ -10,7 +10,7 @@ export function* getGifWorker(action) {
         const findGif = yield gifArray.find((gif) => {
             return gif.id === action.payload.id;
         });
-        const gif = yield findGif ? findGif : apiInstance.getGif(action.payload.id);
+        const gif = yield findGif ? findGif : gifApiInstance.getGif(action.payload.id);
         yield put(gifActions.getGif.success({
             currentGif: gif,            
         }));        

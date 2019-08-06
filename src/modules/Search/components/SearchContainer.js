@@ -47,13 +47,11 @@ const SearchContainer = (props) => {
                 onInputChange={inputChangeHandler}
                 onEnterKeyPress={onEnterKeyPress}
                 input={input}
-                buttonText={lang.SEARCH_BUTTON}
                 onClick={onSearch}
             />
             <SearchUpload
                 onClick={onUpload}
                 onFileChange={onFileChange}
-                text={lang.UPLOAD_BUTTON}
             />
         </div>
     );

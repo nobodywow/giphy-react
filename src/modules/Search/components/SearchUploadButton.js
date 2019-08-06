@@ -1,19 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../../../common/components/Button';
+import { lang } from '../../../locales/config';
 
 const SearchUploadButton = (props) => {
     return (
-        <button
+        <Button
             onClick={props.onClick}
-        >
-        {props.text}
-        </button>
+            buttonText={lang.UPLOAD_BUTTON}
+        />
     );
 };
 
 SearchUploadButton.propTypes = {
     onClick: PropTypes.func,
-    text: PropTypes.string,
 };
 
 export default SearchUploadButton;

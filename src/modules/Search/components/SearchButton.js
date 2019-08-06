@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../../../common/components/Button';
+import { lang } from '../../../locales/config';
 
 const SearchButton = (props) => {
     return (
-        <button
+        <Button
             className='search-button'
             onClick={props.onClick}
-            disabled={props.input.length === 0}
-        >
-        {props.text}
-        </button> 
+            isDisabled={props.isDisabled}
+            buttonText={lang.SEARCH_BUTTON}
+        />
     );
 };
 
 SearchButton.propTypes = {
+    isDisabled: PropTypes.bool,
     onClick: PropTypes.func,
     input: PropTypes.string,
-    text: PropTypes.string,
 };
 
 export default SearchButton;

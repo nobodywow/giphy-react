@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { lang } from '../../../locales/config';
 import { connect } from 'react-redux';
 import Search from './Search';
 import SearchUpload from './SearchUpload';
+import SearchAuth from './SearchAuth';
 import { searchActions } from '../search.actions';
 import { paths, constructPath } from '../../../routes/paths';
 import { convertKeywordToQuery } from '../../../utils/stringUtils';
@@ -12,6 +12,9 @@ const SearchContainer = (props) => {
 
     const [input, setInput] = useState('');
     const [file, setFile] = useState({});
+    const [username, setUsername] = useState('');
+    const [avatarUrl, setAvatar] = useState('');
+    const [isShowUser, setShowUser] = useState(false);
     
     const inputChangeHandler = (event) => {
         setInput(event.target.value);
@@ -27,7 +30,7 @@ const SearchContainer = (props) => {
                 onSearch();
             }
         }
-    };    
+    };
 
     const onSearch = () => {
         props.resetKeyword(input);
@@ -40,10 +43,21 @@ const SearchContainer = (props) => {
         props.uploadGif(file);
     };
 
+    const onUsernameChange = (event) => setUsername(event.target.value);
+    const onAvatarChange = (event) => setAvatar(event.target.value);
+
+    const onAuth = () => {
+        props.authUser(username, avatarUrl);
+        setShowUser(false);
+    };
+
+    const onUserClick = () => {
+        setShowUser(true);
+    };
+
     return (
         <div>
             <Search
-                inputPlaceholder={lang.SEARCH_INPUT_PLACEHOLDER}
                 onInputChange={inputChangeHandler}
                 onEnterKeyPress={onEnterKeyPress}
                 input={input}
@@ -52,7 +66,16 @@ const SearchContainer = (props) => {
             <SearchUpload
                 onClick={onUpload}
                 onFileChange={onFileChange}
+                onUserClick={onUserClick}
             />
+            {isShowUser
+            ? <SearchAuth
+                onUsernameChange={onUsernameChange}
+                onAvatarChange={onAvatarChange}
+                onClick={onAuth}
+              />
+            : null
+            }
         </div>
     );
     
@@ -62,6 +85,7 @@ SearchContainer.propTypes = {
     history: PropTypes.object,
     uploadGif: PropTypes.func,
     resetKeyword: PropTypes.func,
+    authUser: PropTypes.func,
 };
 
 const mapStateToProps = state => ({
@@ -69,8 +93,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    resetKeyword: (keyword) => dispatch(searchActions.resetKeyword.success({ keyword })),
+    resetKeyword: (keyword) => dispatch(searchActions.resetKeyword.request({ keyword })),
     uploadGif: (gif) => dispatch(searchActions.uploadGif.fetch({ gif })),
+    authUser: (username, avatarUrl) => dispatch(searchActions.authUser.request({ username, avatarUrl })),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchContainer);

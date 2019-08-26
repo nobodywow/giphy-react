@@ -8,7 +8,9 @@ export function* resetKeywordWorker(action) {
             keyword: action.payload.keyword,
         }));
     } catch(error) {
-        yield put(searchActions);
+        yield put(searchActions.resetKeyword.fault({
+            error: error,
+        }));
     }
 }
 
@@ -19,6 +21,20 @@ export function* uploadGifWorker(action) {
         yield put(searchActions.uploadGif.success());
     } catch (error) {
         yield put(searchActions.uploadGif.fault({
+            error: error,
+        }));
+    }
+}
+
+export function* authUser(action) {
+    try {
+        yield gifServiceInstance.addUser(action.payload.username, action.payload.avatarUrl);
+        yield put(searchActions.authUser.success({
+            username: action.payload.username,
+            avatarUrl: action.payload.avatarUrl,
+        }));
+    } catch (error) {
+        yield put(searchActions.authUser.fault({
             error: error,
         }));
     }

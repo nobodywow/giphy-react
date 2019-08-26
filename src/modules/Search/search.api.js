@@ -13,6 +13,13 @@ class GifServiceApi extends BaseGifApi {
         });
     };
 
+    addUser = async (username, avatarUrl) => {
+        await axios.post(apiConfig.AUTH_ENDPOINT, {
+            "username": username,
+            "avatarUrl": avatarUrl
+        });
+    };
+
 }
 
 export const gifServiceInstance = new GifServiceApi();

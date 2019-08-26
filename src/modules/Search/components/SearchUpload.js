@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import SearchUploadField from './SearchUploadField';
 import SearchUploadButton from './SearchUploadButton';
+import SearchUploadUserButton from './SearchUploadUserButton';
 
 const SearchUpload = (props) => {
     return (
@@ -11,7 +12,10 @@ const SearchUpload = (props) => {
                 />
                 <SearchUploadButton
                     onClick={props.onClick}
-                />                
+                />
+                <SearchUploadUserButton
+                    onClick={props.onUserClick}
+                />
         </div>
     );
 };
@@ -19,7 +23,7 @@ const SearchUpload = (props) => {
 SearchUpload.propTypes = {
     onFileChange: PropTypes.func,
     onClick: PropTypes.func,
-    text: PropTypes.string,
+    onUserClick: PropTypes.func,
 };
 
 export default SearchUpload;

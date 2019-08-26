@@ -8,4 +8,7 @@ export const en = {
     [keys.GIF_DELETE_BUTTON]: 'delete gif',
     [keys.ERROR_MESSAGE]: 'No gifs found. Try again please.',
     [keys.UPLOAD_BUTTON]: 'upload',
+    [keys.USER_AUTH_PLACEHOLDER]: 'enter username',
+    [keys.USER_AUTH_BUTTON]: 'auth',
+    [keys.USER_INFO_BUTTON]: 'add user info',
 };

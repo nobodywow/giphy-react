@@ -17,4 +17,17 @@ export const searchReducer = {
         gifs: [],
         offset: 0,
     }),
+    [searchActions.resetKeyword.fault.toString()]: (state, action) => ({
+        ...state,
+        error: action.payload.error,
+    }),
+    [searchActions.authUser.success.toString()]: (state, action) => ({
+        ...state,
+        currentUser: action.payload.username,
+        userAvatar: action.payload.avatarUrl,
+    }),
+    [searchActions.authUser.fault.toString()]: (state, action) => ({
+        ...state,
+        error: action.payload.error,
+    }),
 };

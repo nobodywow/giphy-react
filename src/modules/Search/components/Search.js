@@ -9,7 +9,6 @@ const Search = (props) => {
         <div>
             <div className='search'>
                 <SearchInput
-                    placeholder={props.inputPlaceholder}
                     onChange={props.onInputChange}
                     onKeyPress={props.onEnterKeyPress}
                     input={props.input}
@@ -18,7 +17,7 @@ const Search = (props) => {
                     onClick={props.onClick}
                     input={props.input}
                     isDisabled={props.input.length === 0}
-                />                
+                />    
             </div>
         </div>
     );

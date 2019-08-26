@@ -5,4 +5,6 @@ export const initialState = {
     currentGif: {},
     loading: false,
     error: null,
+    currentUser: '',
+    userAvatar: '',
 };

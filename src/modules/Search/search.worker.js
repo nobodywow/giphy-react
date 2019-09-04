@@ -17,7 +17,7 @@ export function* resetKeywordWorker(action) {
 export function* uploadGifWorker(action) {
     try {
         yield put (searchActions.uploadGif.request());
-        yield gifServiceInstance.uploadGif(action.payload.gif);
+        yield gifServiceInstance.uploadGif(action.payload.gif, action.payload.username, action.payload.tags);
         yield put(searchActions.uploadGif.success());
     } catch (error) {
         yield put(searchActions.uploadGif.fault({

@@ -4,8 +4,8 @@ import BaseGifApi from '../../api/BaseGifApi';
 
 class GifServiceApi extends BaseGifApi {
 
-    uploadGif = async (file) => {
-        await axios.post(apiConfig.UPLOAD_ENDPOINT, this.createFormData(file))
+    uploadGif = async (file, username, tags) => {
+        await axios.post(apiConfig.UPLOAD_ENDPOINT, this.createFormData(file, username, tags))
         .then(response => {
             console.log(response);
         }, (error) => {

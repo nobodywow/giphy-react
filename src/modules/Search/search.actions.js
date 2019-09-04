@@ -11,6 +11,7 @@ export const searchActions = {
     authUser: {
         request: createAction('AUTH_USER_REQUEST'),
         success: createAction('AUTH_USER'),
+        logout: createAction('AUTH_LOGOUT'),
         fault: createAction('AUTH_FAILED'),
     },
 };

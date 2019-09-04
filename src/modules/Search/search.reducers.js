@@ -30,4 +30,9 @@ export const searchReducer = {
         ...state,
         error: action.payload.error,
     }),
+    [searchActions.authUser.logout.toString()]: (state) => ({
+        ...state,
+        currentUser: '',
+        userAvatar: '',
+    })
 };

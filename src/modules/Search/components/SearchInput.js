@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { lang } from '../../../locales/config';
 
@@ -6,9 +6,9 @@ const SearchInput = (props) => {
 
     const inputElement = useRef(null);
 
-    // useEffect(() => {
-    //     inputElement.current.focus();
-    // });
+    useEffect(() => {
+        inputElement.current.focus();
+    }, []);
 
     return (
         <input
